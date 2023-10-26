@@ -1,14 +1,17 @@
 import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
 import './App.css';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
+//import Dropdown from 'react-bootstrap/Dropdown';
+//import DropdownButton from 'react-bootstrap/DropdownButton';
 import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Toast from 'react-bootstrap/Toast';
 import { useWindowSize } from 'react-hooks-window-size';
 import Confetti from 'react-confetti';
+import { Form } from 'react-bootstrap';
+import FormSelect from 'react-bootstrap/FormSelect';
+
 /*
 GPA Conversions
 Weighted GPA Scale:
@@ -38,21 +41,23 @@ function App() {
   const [showA, setShowA] = useState(false);
   const toggleShowA = () => setShowA(!showA);
   const {width, height} = useWindowSize();
-
+  console.log(ConvertScale);
+  console.log(userScale);
   return (
     <div className="App">
       <style>{'body { background-color: grey; }'}</style>
       <h1 style={{color:"white", flex:"center"}}>GPA Converter</h1>
       <div>
-        <DropdownButton id="dropdown-basic-scale" title="GPA Scale" flip="true" menuVariant='dark' style={{margin:10}} variant="success">
-          <Dropdown.Item onClick={() => setUserScale(4)}>4.0 Scale</Dropdown.Item>
-          <Dropdown.Item onClick={() => setUserScale(100)}>100.0 Scale</Dropdown.Item>
-        </DropdownButton>
-
-        <DropdownButton id="dropdown-basic-conversion" title="Conversion" menuVariant='dark' style={{margin:10}} variant="success">
-          <Dropdown.Item onClick={() => setConvertScale(4)}>4.0 Scale</Dropdown.Item>
-          <Dropdown.Item onClick={() => setConvertScale(100)}>100.0 Scale</Dropdown.Item>
-        </DropdownButton>
+      <Form.Select aria-label="GPA Scale" id="gpascale" style={{margin:10}}>
+        <option value="gpa scale">Select GPA Scale...</option>
+        <option id="4pt" value="4" onClick={() => setUserScale(value)}>4.0 Scale</option>
+        <option id="100pt" value="100" onClick={() => setUserScale(value)}>100.0 Scale</option>
+      </Form.Select>
+      <Form.Select aria-label="Conversion" id="converison" style={{margin:10}}>
+        <option value="convert">Select Conversion Scale...</option>
+        <option id="4c" value="4" onClick={() => setConvertScale(value)}>4.0 Scale</option>
+        <option id="100c" value="100" onClick={() => setConvertScale(value)}>100.0 Scale</option>
+      </Form.Select>
       </div>
       
   
@@ -60,11 +65,12 @@ function App() {
       name="userGPA"
       placeholder="Enter GPA..."
       type="float"
+      patter='numeric'
       min={0}
-      max={userScale}
-      required
-      onChange={e => setUserGPA(e.target.value)}
       value={userGPA}
+      onChange={e => setUserGPA(e.target.value)}
+      required
+      style={{margin:10}}
       />
       
     <Row>
